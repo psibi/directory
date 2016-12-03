@@ -19,7 +19,7 @@
 --
 -----------------------------------------------------------------------------
 
-#include <HsDirectoryConfig.h>
+-- #include <HsDirectoryConfig.h>
 module System.Directory
    (
     -- $intro
@@ -139,7 +139,7 @@ import System.IO.Error
 
 import Foreign
 
-{-# CFILES cbits/directory.c #-}
+-- {-# CFILES cbits/directory.c #-}
 
 import Data.Time ( UTCTime )
 import Data.Time.Clock.POSIX
@@ -150,17 +150,17 @@ import Data.Time.Clock.POSIX
 
 import GHC.IO.Exception ( IOErrorType(InappropriateType) )
 
-#ifdef mingw32_HOST_OS
-import Foreign.C
-import System.Posix.Types
-import System.Posix.Internals
-import qualified System.Win32 as Win32
-#else
+-- #ifdef mingw32_HOST_OS
+-- import Foreign.C
+-- import System.Posix.Types
+-- import System.Posix.Internals
+-- import qualified System.Win32 as Win32
+-- #else
 import GHC.IO.Encoding
 import GHC.Foreign as GHC
 import System.Environment ( getEnv )
 import qualified System.Posix as Posix
-#endif
+-- #endif
 
 #ifdef HAVE_UTIMENSAT
 import Foreign.C (throwErrnoPathIfMinus1_)
@@ -1573,13 +1573,8 @@ getFileTimes path =
 #ifndef mingw32_HOST_OS
 fileTimesFromStatus :: Posix.FileStatus -> (UTCTime, UTCTime)
 fileTimesFromStatus st =
-# if MIN_VERSION_unix(2, 6, 0)
   ( posixSecondsToUTCTime (Posix.accessTimeHiRes st)
   , posixSecondsToUTCTime (Posix.modificationTimeHiRes st) )
-# else
-  ( posixSecondsToUTCTime (realToFrac (Posix.accessTime st))
-  , posixSecondsToUTCTime (realToFrac (Posix.modificationTime st)) )
-# endif
 #endif
 
 -- | Change the time at which the file or directory was last accessed.
@@ -1672,14 +1667,7 @@ setFileTimes path (atime, mtime) =
         (fromMaybe (utcTimeToPOSIXSeconds mtimeOld) mtime')
 
     setFileTimes' :: FilePath -> POSIXTime -> POSIXTime -> IO ()
-# if MIN_VERSION_unix(2, 7, 0)
     setFileTimes' = Posix.setFileTimesHiRes
-#  else
-    setFileTimes' pth atime' mtime' =
-      Posix.setFileTimes pth
-        (fromInteger (truncate atime'))
-        (fromInteger (truncate mtime'))
-# endif
 #endif
 
 #ifdef mingw32_HOST_OS

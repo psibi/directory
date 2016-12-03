@@ -1,5 +1,5 @@
 {-# LANGUAGE CPP #-}
-#include <HsDirectoryConfig.h>
+-- #include <HsDirectoryConfig.h>
 module System.Directory.Internal.Config where
 
 -- | Filename extension for executable files (including the dot if any)

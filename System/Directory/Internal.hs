@@ -1,5 +1,5 @@
 {-# LANGUAGE CPP #-}
-#include <HsDirectoryConfig.h>
+-- #include <HsDirectoryConfig.h>
 
 module System.Directory.Internal
   ( module System.Directory.Internal.Config
